@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -25,25 +27,32 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+
     ProgressDialog pd;  // da capire meglio la classe ProgressDialog
-    TextView txtMeteoDomani = null;
+    TextView txtMeteoDomani = null, txtMeteoDopodomani = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView txtDomaniView = (TextView) findViewById(R.id.txtDataDomani);
+        final TextView txtDopodomaniView = (TextView) findViewById(R.id.txtDataDopodomani);
 
         // imposto la data di domani
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE,1); // aggiungo un giorno
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String strDate = sdf.format(c.getTime());
+        c.add(Calendar.DATE,1); // aggiungo due giorno
+        SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate2 = sdf2.format(c.getTime());
 
         //String currentDateTimeString = java.text.DateFormat.getDateTimeInstance(DateFormat.SHORT).format(new Date());
         txtDomaniView.setText(strDate);
+        txtDopodomaniView.setText(strDate2);
 
-        new JsonTask().execute("http://api.openweathermap.org/data/2.5/forecast?q=lecce&appid=35222ccfcb5285d12e8a0e3222d59d9c");
+        //new JsonTask().execute("http://api.openweathermap.org/data/2.5/forecast?q=lecce&appid=35222ccfcb5285d12e8a0e3222d59d9c");
+        new JsonTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?q=lecce&cnt=3&appid=35222ccfcb5285d12e8a0e3222d59d9c");
     }
 
     private class JsonTask extends AsyncTask<String, String, String> {
@@ -60,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             txtMeteoDomani = (TextView) findViewById(R.id.txtMeteoDomani);
+            txtMeteoDopodomani = (TextView) findViewById(R.id.txtMeteoDopodomani);
 
             HttpURLConnection connection = null;
             BufferedReader reader = null;
@@ -128,15 +138,41 @@ public class MainActivity extends AppCompatActivity {
             }
 
             final TextView txtMeteoDomani = findViewById(R.id.txtMeteoDomani);
-            String datejson = null;
+            final TextView txtMeteoDopodomani = (TextView) findViewById(R.id.txtMeteoDopodomani);
+            String datejson = null, datejson2 = null;
+
+            final ImageView ok1 = (ImageView) findViewById(R.id.imageOK1);
+            final ImageView no1 = (ImageView) findViewById(R.id.imageNO1);
+            final ImageView ok2 = (ImageView) findViewById(R.id.imageOK2);
+            final ImageView no2 = (ImageView) findViewById(R.id.imageNO2);
+
             try {
                 JSONObject json = new JSONObject(result);
-                datejson = json.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getString("main");
+                //datejson = json.getJSONArray("list").getJSONObject(0).getJSONArray("weather").getJSONObject(0).getString("main");
+                datejson = json.getJSONArray("list").getJSONObject(1).getJSONArray("weather").getJSONObject(0).getString("main");
+                datejson2 = json.getJSONArray("list").getJSONObject(2).getJSONArray("weather").getJSONObject(0).getString("main");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             txtMeteoDomani.setText(datejson);
+            txtMeteoDopodomani.setText(datejson2);
+
+            if (txtMeteoDomani.getText().equals("Rain") || txtMeteoDomani.getText().equals("Light rain")) {
+                ok1.setVisibility(View.INVISIBLE);
+                no1.setVisibility(View.VISIBLE);
+            }else{
+                ok1.setVisibility(View.VISIBLE);
+                no1.setVisibility(View.INVISIBLE);
+            }
+
+            if (txtMeteoDopodomani.getText().equals("Rain") || txtMeteoDopodomani.getText().equals("Light rain")) {
+                ok2.setVisibility(View.INVISIBLE);
+                no2.setVisibility(View.VISIBLE);
+            }else{
+                ok2.setVisibility(View.VISIBLE);
+                no2.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
