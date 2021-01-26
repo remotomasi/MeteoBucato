@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -153,12 +155,13 @@ public class MainActivity extends AppCompatActivity {
             final ImageView no2 = (ImageView) findViewById(R.id.imageNO2);
             // http://openweathermap.org/img/wn/10d@2x.png
 
-
             String urldisplay = null;
             Bitmap mIcon1 = null;
             Bitmap mIcon2 = null;
             final ImageView icom1 = (ImageView) findViewById(R.id.imageICO1);
             final ImageView icom2 = (ImageView) findViewById(R.id.imageICO2);
+
+            icom1.setImageResource(R.drawable.s01d2x);
 
             try {
                 JSONObject json = new JSONObject(result);
@@ -176,8 +179,11 @@ public class MainActivity extends AppCompatActivity {
             txtMeteoDomani.setText(datejson);
             txtMeteoDopodomani.setText(datejson2);
 
-            icom1.setVisibility(View.INVISIBLE);
-            icom2.setVisibility(View.INVISIBLE);
+            icom1.setImageResource(setIcon(ico1));
+            icom2.setImageResource(setIcon(ico2));
+
+            icom1.setVisibility(View.VISIBLE);
+            icom2.setVisibility(View.VISIBLE);
 
             if (id1 < 600 && id1 != 771 && id1 != 762) {
                 ok1.setVisibility(View.INVISIBLE);
@@ -195,6 +201,46 @@ public class MainActivity extends AppCompatActivity {
                 no2.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    public int setIcon(String iconame) {
+
+        int ricon = 0;
+
+        if (iconame.contains("01d"))
+            ricon = R.drawable.s01d2x;
+        if (iconame.contains("02d"))
+            ricon = R.drawable.s02d2x;
+        if (iconame.contains("03d"))
+            ricon = R.drawable.s03d2x;
+        if (iconame.contains("04d"))
+            ricon = R.drawable.s04d2x;
+        if (iconame.contains("09d"))
+            ricon = R.drawable.s09d2x;
+        if (iconame.contains("11d"))
+            ricon = R.drawable.s11d2x;
+        if (iconame.contains("13d"))
+            ricon = R.drawable.s13d2x;
+        if (iconame.contains("50d"))
+            ricon = R.drawable.s50d2x;
+        if (iconame.contains("01n"))
+            ricon = R.drawable.s01n2x;
+        if (iconame.contains("02n"))
+            ricon = R.drawable.s02n2x;
+        if (iconame.contains("03n"))
+            ricon = R.drawable.s03n2x;
+        if (iconame.contains("04n"))
+            ricon = R.drawable.s04n2x;
+        if (iconame.contains("09n"))
+            ricon = R.drawable.s09n2x;
+        if (iconame.contains("11n"))
+            ricon = R.drawable.s11n2x;
+        if (iconame.contains("13n"))
+            ricon = R.drawable.s13n2x;
+        if (iconame.contains("50n"))
+            ricon = R.drawable.s50n2x;
+
+        return ricon;
     }
 
     /** Called when the user taps the Send button */
