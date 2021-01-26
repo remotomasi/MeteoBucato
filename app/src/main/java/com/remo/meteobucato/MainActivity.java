@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             txtMeteoDomani.setText(datejson);
             txtMeteoDopodomani.setText(datejson2);
 
+            //String ic = "R.drawable.s" + ico1 + "2x";
             icom1.setImageResource(setIcon(ico1));
             icom2.setImageResource(setIcon(ico2));
 
@@ -205,42 +206,10 @@ public class MainActivity extends AppCompatActivity {
 
     public int setIcon(String iconame) {
 
-        int ricon = 0;
+        int resID = getResources().getIdentifier( "s" + iconame + "2x", "drawable", getPackageName());
+        Log.i("ID icona >>>", "" + resID + "   " + "R.drawable.s" + iconame + "2x");
 
-        if (iconame.contains("01d"))
-            ricon = R.drawable.s01d2x;
-        if (iconame.contains("02d"))
-            ricon = R.drawable.s02d2x;
-        if (iconame.contains("03d"))
-            ricon = R.drawable.s03d2x;
-        if (iconame.contains("04d"))
-            ricon = R.drawable.s04d2x;
-        if (iconame.contains("09d"))
-            ricon = R.drawable.s09d2x;
-        if (iconame.contains("11d"))
-            ricon = R.drawable.s11d2x;
-        if (iconame.contains("13d"))
-            ricon = R.drawable.s13d2x;
-        if (iconame.contains("50d"))
-            ricon = R.drawable.s50d2x;
-        if (iconame.contains("01n"))
-            ricon = R.drawable.s01n2x;
-        if (iconame.contains("02n"))
-            ricon = R.drawable.s02n2x;
-        if (iconame.contains("03n"))
-            ricon = R.drawable.s03n2x;
-        if (iconame.contains("04n"))
-            ricon = R.drawable.s04n2x;
-        if (iconame.contains("09n"))
-            ricon = R.drawable.s09n2x;
-        if (iconame.contains("11n"))
-            ricon = R.drawable.s11n2x;
-        if (iconame.contains("13n"))
-            ricon = R.drawable.s13n2x;
-        if (iconame.contains("50n"))
-            ricon = R.drawable.s50n2x;
-
-        return ricon;
+        return resID;
     }
 
     /** Called when the user taps the Send button */
