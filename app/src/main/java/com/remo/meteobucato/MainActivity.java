@@ -179,7 +179,14 @@ public class MainActivity extends AppCompatActivity {
             icom1.setVisibility(View.INVISIBLE);
             icom2.setVisibility(View.INVISIBLE);
 
-            if (id1 < 600 && id1 != 771 && id1 != 762) {
+            // evito le condizioni peggiori ed anche
+            // sabbia, polvere, cenere vulcanica,
+            // burrasche e tornado
+            boolean b = id1 < 623 || id1 == 771 || id1 == 762
+                    || id1 == 731 || id1 == 751
+                    || id1 == 761 || id1 == 762
+                    || id1 == 781 || id1 == 751;
+            if (b) {
                 ok1.setVisibility(View.INVISIBLE);
                 no1.setVisibility(View.VISIBLE);
             }else{
@@ -187,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 no1.setVisibility(View.INVISIBLE);
             }
 
-            if (id2 < 600 && id2 != 771 && id2 != 762) {
+            if (b) {
                 ok2.setVisibility(View.INVISIBLE);
                 no2.setVisibility(View.VISIBLE);
             }else{
