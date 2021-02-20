@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -153,12 +155,13 @@ public class MainActivity extends AppCompatActivity {
             final ImageView no2 = (ImageView) findViewById(R.id.imageNO2);
             // http://openweathermap.org/img/wn/10d@2x.png
 
-
             String urldisplay = null;
             Bitmap mIcon1 = null;
             Bitmap mIcon2 = null;
             final ImageView icom1 = (ImageView) findViewById(R.id.imageICO1);
             final ImageView icom2 = (ImageView) findViewById(R.id.imageICO2);
+
+            icom1.setImageResource(R.drawable.s01d2x);
 
             try {
                 JSONObject json = new JSONObject(result);
@@ -176,8 +179,12 @@ public class MainActivity extends AppCompatActivity {
             txtMeteoDomani.setText(datejson);
             txtMeteoDopodomani.setText(datejson2);
 
-            icom1.setVisibility(View.INVISIBLE);
-            icom2.setVisibility(View.INVISIBLE);
+            //String ic = "R.drawable.s" + ico1 + "2x";
+            icom1.setImageResource(setIcon(ico1));
+            icom2.setImageResource(setIcon(ico2));
+
+            icom1.setVisibility(View.VISIBLE);
+            icom2.setVisibility(View.VISIBLE);
 
             // evito le condizioni peggiori ed anche
             // sabbia, polvere, cenere vulcanica,
@@ -202,6 +209,14 @@ public class MainActivity extends AppCompatActivity {
                 no2.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    public int setIcon(String iconame) {
+
+        int resID = getResources().getIdentifier( "s" + iconame + "2x", "drawable", getPackageName());
+        Log.i("ID icona >>>", "" + resID + "   " + "R.drawable.s" + iconame + "2x");
+
+        return resID;
     }
 
     /** Called when the user taps the Send button */
