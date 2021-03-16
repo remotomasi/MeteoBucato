@@ -191,8 +191,12 @@ public class MainActivity extends AppCompatActivity {
             // burrasche e tornado
             boolean b = id1 < 623 || id1 == 771 || id1 == 762
                     || id1 == 731 || id1 == 751
-                    || id1 == 761 || id1 == 762
-                    || id1 == 781 || id1 == 751;
+                    || id1 == 761 || id1 == 781;
+
+            boolean c = id2 < 623 || id2 == 771 || id1 == 762
+                    || id2 == 731 || id2 == 751
+                    || id2 == 761 || id2 == 781;
+
             if (b) {
                 ok1.setVisibility(View.INVISIBLE);
                 no1.setVisibility(View.VISIBLE);
@@ -201,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 no1.setVisibility(View.INVISIBLE);
             }
 
-            if (b) {
+            if (c) {
                 ok2.setVisibility(View.INVISIBLE);
                 no2.setVisibility(View.VISIBLE);
             }else{
